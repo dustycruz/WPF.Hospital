@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF.Hospital"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="500" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"></RowDefinition>
@@ -47,7 +47,7 @@
                 </Style>
             </StackPanel.Resources>
             <Button x:Name="btnAddPatient" Content="Add Patient" Click="btnAddPatient_Click"></Button>
-            <Button Content="Delete Patient"></Button>
+            <Button Content="Delete Patient" Click="Button_Click"></Button>
             <Button x:Name="btnAllPatients" Content="All Patients" Click="btnAllPatients_Click"></Button>
         </StackPanel>
         <Label Grid.Row="4" Margin="2" Content="Medicine Maintenance" FontSize="16" FontWeight="Bold"></Label>
@@ -59,7 +59,7 @@
                     <Setter Property="BorderThickness"  Value="0"></Setter>
                 </Style>
             </StackPanel.Resources>
-            <Button x:Name="btnAddMedicine" Content="Add Add Medicine"></Button>
+            <Button x:Name="btnAddMedicine" Content="Add Medicine" Click="btnAddMedicine_Click"></Button>
             <Button Content="Delete Medicine"></Button>
             <Button x:Name="btnAllMedicine" Content="All Medicine"></Button>
         </StackPanel>

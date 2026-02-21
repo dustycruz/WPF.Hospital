@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF.Hospital.Service.Interface;
 
 namespace WPF.Hospital
 {
@@ -16,6 +17,15 @@ namespace WPF.Hospital
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly IPatientService _patientService;
+
+        public MainWindow(IPatientService patientService)
+        {
+            InitializeComponent();
+            _patientService = patientService;
+            this.WindowState = WindowState.Maximized;
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -24,14 +34,28 @@ namespace WPF.Hospital
 
         private void btnAddPatient_Click(object sender, RoutedEventArgs e)
         {
-            AddPatient addPatient = new AddPatient();
+            AddPatient addPatient = new AddPatient(_patientService);
             addPatient.ShowDialog();
         }
 
         private void btnAllPatients_Click(object sender, RoutedEventArgs e)
         {
-            AllPatients allPatients = new AllPatients();
+            AllPatients allPatients = new AllPatients(_patientService);
             allPatients.ShowDialog();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            DeletePatient DeletePatient = new DeletePatient(_patientService);
+            DeletePatient.Show();
+
+        }
+
+        private void btnAddMedicine_Click(object sender, RoutedEventArgs e)
+        {
+            AddMedicine AddMedicine = new AddMedicine(_patientService);
+            AddMedicine.Show();
+
         }
     }
 }

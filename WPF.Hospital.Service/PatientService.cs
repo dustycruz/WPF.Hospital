@@ -51,5 +51,29 @@ namespace WPF.Hospital.Service
                     BirthDate = p.Birthdate,
                 });
         }
+
+        public void Add(Patient patient)
+        {
+
+            _patientRepository.Add(new Model.Patient
+            {
+                Id = patient.Id,
+                FirstName = patient.FirstName,
+                LastName = patient.LastName,
+                Age = patient.Age,
+            });
+            _patientRepository.Save();
+
+
+        }
+
+        public void Delete(int id)
+        {
+            _patientRepository.Delete(id);
+            _patientRepository.Save();
+        }
+
+
+
     }
 }

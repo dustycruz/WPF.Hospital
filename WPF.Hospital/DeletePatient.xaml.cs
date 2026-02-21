@@ -17,34 +17,45 @@ using WPF.Hospital.ViewModel;
 namespace WPF.Hospital
 {
     /// <summary>
-    /// Interaction logic for AllPatients.xaml
+    /// Interaction logic for DeletePatient.xaml
     /// </summary>
-    public partial class AllPatients : Window
+    public partial class DeletePatient : Window
     {
         private readonly IPatientService _patientService;
-        public AllPatients(IPatientService patientService)
+        public DeletePatient(IPatientService patientService)
         {
             InitializeComponent();
             _patientService = patientService;
             DataContext = new
-            {
-                Patients = _patientService.GetAll()
+                {
+                    Patients = _patientService.GetAll()
                 .Select(p => new PatientViewModel()
                 {
                     Id = p.Id,
-                    FirstName = p.FirstName,
-                    LastName = p.LastName,
-                    Age = p.Age.ToString(),
-                    Birthdate = p.BirthDate,
                 })
-            };
+                };
 
         }
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void btnDeletePatient_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(tbPatientId.Text))
+            {
+                MessageBox.Show("Please enter a patient id");
+                return;
+            }
+            if (DataContext == null)
+            {
+                MessageBox.Show("Id not found");
+               
+            }
+            else            {
+                _patientService.Delete(Convert.ToInt32(tbPatientId.Text));
+                MessageBox.Show("Patient Deleted Succesfully!");
+            }
+
+
 
         }
     }
-
 }

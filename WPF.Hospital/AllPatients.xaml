@@ -19,6 +19,6 @@
         <Label Content="All Patients" FontWeight="Bold"></Label>
         <Label Content="Search:" Grid.Row="1"></Label>
         <TextBox Grid.Row="1" Grid.Column="1"></TextBox>
-        <DataGrid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,5,0,0"></DataGrid>
+        <DataGrid ItemsSource="{Binding Patients}" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,5,0,0"></DataGrid>
     </Grid>
 </Window>

@@ -17,34 +17,28 @@ using WPF.Hospital.ViewModel;
 namespace WPF.Hospital
 {
     /// <summary>
-    /// Interaction logic for AllPatients.xaml
+    /// Interaction logic for AddMedicine.xaml
     /// </summary>
-    public partial class AllPatients : Window
+    public partial class AddMedicine : Window
     {
         private readonly IPatientService _patientService;
-        public AllPatients(IPatientService patientService)
+
+        public AddMedicine(IPatientService patientService)
         {
             InitializeComponent();
             _patientService = patientService;
-            DataContext = new
-            {
-                Patients = _patientService.GetAll()
-                .Select(p => new PatientViewModel()
-                {
-                    Id = p.Id,
-                    FirstName = p.FirstName,
-                    LastName = p.LastName,
-                    Age = p.Age.ToString(),
-                    Birthdate = p.BirthDate,
-                })
-            };
-
+            DataContext = new MedicineViewModel();
         }
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void btnAddMedicine_Click(object sender, RoutedEventArgs e)
         {
+            _patientService.Add(new DTO.Medicine()
+            {
+                Name = ((MedicineViewModel)DataContext).Name,
+                Brand = ((MedicineViewModel)DataContext).Brand,
+            });
 
+            MessageBox.Show("Medicine Addded Succesfully!");
         }
     }
-
 }
