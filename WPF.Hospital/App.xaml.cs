@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Data;
 using System.Windows;
 using WPF.Hospital.Repository;
+using WPF.Hospital.Repository.Interface;
 using WPF.Hospital.Service;
 using WPF.Hospital.Service.Interface;
 
@@ -31,10 +32,15 @@ namespace WPF.Hospital
                         options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection"));
                     });
                     services.AddScoped<IPatientRepository, PatientRepository>();
+                    services.AddScoped<IDoctorRepository, DoctorRepository>();
                     services.AddScoped<IHistoryRepository, HistoryRepository>();
-
+                    services.AddScoped<IMedicineRepository, MedicineRepository>();
+                    services.AddScoped<IPrescriptionRepository, PrescriptionRepository>();
                     services.AddScoped<IPatientService, PatientService>();
-
+                    //services.AddScoped<IDoctorService, DoctorService>();
+                    //services.AddScoped<IHistoryService, HistoryService>();
+                    //services.AddScoped<IMedicineService, MedicineService>();
+                    //services.AddScoped<IPrescriptionService, PrescriptionService>();
                     services.AddTransient<MainWindow>();
                 })
                 .Build();

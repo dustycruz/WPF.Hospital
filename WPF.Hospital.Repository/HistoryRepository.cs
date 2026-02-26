@@ -14,6 +14,8 @@ namespace WPF.Hospital.Repository
         {
             _context = context;
         }
+        public History Get(int id) => _context.History.Find(id);
+        public IEnumerable<History> GetAll() => _context.History.ToList();
         public void Add(History entity)
         {
             _context.History.Add(entity);
@@ -28,27 +30,16 @@ namespace WPF.Hospital.Repository
             }
         }
 
-        public History Get(int id)
-        {
-            return _context.History.Find();
-        }
-
-        public IEnumerable<History> GetAll() => _context.History.ToList();
-
-
-        public IEnumerable<History> GetByPatientId(int patientId)
-        {
-            return _context.History.Where(h => h.PatientId == patientId).ToList();
-        }
-
-        public int Save()
-        {
-            return _context.SaveChanges();
-        }
-
+    
         public void Update(History entity)
         {
             _context.History.Update(entity);
+        }
+        public int Save() => _context.SaveChanges();
+
+        public IEnumerable<History> GetByPatient(int patientId)
+        {
+            return _context.History.Where(h => h.PatientId == patientId).ToList();
         }
     }
 }

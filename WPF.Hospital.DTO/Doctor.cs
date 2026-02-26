@@ -4,15 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WPF.Hospital.ViewModel
+namespace WPF.Hospital.DTO
 {
-    public class PatientViewModel
+    public class Doctor
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int Age { get; set; }
-        public DateTime Birthdate { get; set; }
-        public IEnumerable<HistoryViewModel> History { get; set; }
+
     }
 }

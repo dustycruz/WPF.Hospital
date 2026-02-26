@@ -17,23 +17,21 @@ using WPF.Hospital.ViewModel;
 namespace WPF.Hospital
 {
     /// <summary>
-    /// Interaction logic for AddMedicine.xaml
+    /// Interaction logic for UpdatePatient.xaml
     /// </summary>
-    public partial class AddMedicine : Window
+    public partial class UpdatePatient : Window
     {
         private readonly IPatientService _patientService;
+        public UpdatePatient(IPatientService patientService)
 
-        public AddMedicine(IPatientService patientService)
         {
             InitializeComponent();
-            _patientService = patientService;
-            DataContext = new MedicineViewModel();
         }
 
-        private void btnAddMedicine_Click(object sender, RoutedEventArgs e)
+        private void btnUpdatePatient_Click(object sender, RoutedEventArgs e)
         {
 
-            MessageBox.Show("Medicine Addded Succesfully!");
+
         }
     }
 }

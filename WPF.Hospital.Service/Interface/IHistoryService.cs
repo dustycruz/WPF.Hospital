@@ -7,7 +7,8 @@ using WPF.Hospital.DTO;
 
 namespace WPF.Hospital.Service.Interface
 {
-    public interface IPatientService : IService<Patient>
+    public interface IHistoryService : IService<History>
     {
+        IEnumerable<History> GetByPatient(int patientId);
     }
 }

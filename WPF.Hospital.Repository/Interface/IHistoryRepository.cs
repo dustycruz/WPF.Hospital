@@ -9,6 +9,7 @@ namespace WPF.Hospital.Repository
 {
     public interface IHistoryRepository : IRepository<History>
     {
-        IEnumerable<History> GetByPatientId (int patientId);
+        IEnumerable<History> GetByPatient (int patientId);
+
     }
 }

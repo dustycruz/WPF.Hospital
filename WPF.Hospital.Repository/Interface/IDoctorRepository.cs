@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WPF.Hospital.DTO;
+using WPF.Hospital.Model;
 
-namespace WPF.Hospital.Service.Interface
+namespace WPF.Hospital.Repository.Interface
 {
-    public interface IPatientService : IService<Patient>
+    public interface IDoctorRepository : IRepository<Doctor>
     {
     }
 }

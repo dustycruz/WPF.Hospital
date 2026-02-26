@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WPF.Hospital.DTO;
+using WPF.Hospital.Model;
 using WPF.Hospital.Repository;
 using WPF.Hospital.Service.Interface;
 
@@ -11,69 +10,117 @@ namespace WPF.Hospital.Service
 {
     public class PatientService : IPatientService
     {
-        public readonly IPatientRepository _patientRepository;
-        public readonly IHistoryRepository _historyRepository;
+        private readonly IPatientRepository _repository;
 
-        public PatientService(IPatientRepository patientRepository, IHistoryRepository historyRepository)
+        public PatientService(IPatientRepository repository)
         {
-            _historyRepository = historyRepository;
-            _patientRepository = patientRepository;
+            _repository = repository;
         }
 
-        public Patient Get(int id) 
+        public IEnumerable<DTO.Patient> GetAll()
         {
-            Model.Patient p = _patientRepository.Get(id);
-            return new Patient
-            {
-                Id = id,
-                FirstName = p.FirstName,
-                LastName = p.LastName,
-                Age = p.Age,
-                BirthDate = p.Birthdate,
-                History = _historyRepository.GetByPatientId(id)
-                    .Select(h => new History
-                    {
-                        Id = h.Id,
-                        Procedure = h.Procedure,
-                    })
-            };
-        }
-
-        public IEnumerable<Patient> GetAll()
-        {
-            return _patientRepository.GetAll()
-                .Select(p => new Patient()
+            return _repository.GetAll()
+                .Select(p => new DTO.Patient
                 {
                     Id = p.Id,
                     FirstName = p.FirstName,
                     LastName = p.LastName,
                     Age = p.Age,
-                    BirthDate = p.Birthdate,
-                });
+                    BirthDate = p.BirthDate
+                })
+                .ToList();
         }
 
-        public void Add(Patient patient)
+        public DTO.Patient? Get(int id)
         {
+            var p = _repository.Get(id);
+            if (p == null) return null;
 
-            _patientRepository.Add(new Model.Patient
+            return new DTO.Patient
             {
-                Id = patient.Id,
-                FirstName = patient.FirstName,
-                LastName = patient.LastName,
-                Age = patient.Age,
-            });
-            _patientRepository.Save();
-
-
+                Id = p.Id,
+                FirstName = p.FirstName,
+                LastName = p.LastName,
+                Age = p.Age,
+                BirthDate = p.BirthDate
+            };
         }
 
-        public void Delete(int id)
+        public (bool Ok, string Message) Create(DTO.Patient dto)
         {
-            _patientRepository.Delete(id);
-            _patientRepository.Save();
+            // ===== VALIDATION =====
+
+            if (string.IsNullOrWhiteSpace(dto.FirstName))
+                return (false, "First Name must not be empty.");
+
+            if (string.IsNullOrWhiteSpace(dto.LastName))
+                return (false, "Last Name must not be empty.");
+
+            if (dto.Age <= 0)
+                return (false, "Age must be greater than 0.");
+
+            if (dto.BirthDate >= DateTime.Today)
+                return (false, "Birthdate must be earlier than today.");
+
+            int computedAge = DateTime.Today.Year - dto.BirthDate.Year;
+            if (dto.BirthDate.Date > DateTime.Today.AddYears(-computedAge))
+                computedAge--;
+
+            if (computedAge != dto.Age)
+                return (false, "Age is not consistent with Birthdate.");
+
+            // Duplicate check (use MODEL from repository)
+            bool duplicate = _repository.GetAll().Any(p =>
+                p.FirstName.ToLower() == dto.FirstName.ToLower() &&
+                p.LastName.ToLower() == dto.LastName.ToLower() &&
+                p.BirthDate.Date == dto.BirthDate.Date
+            );
+
+            if (duplicate)
+                return (false, "Duplicate patient entry detected.");
+
+            // ===== MAP DTO → MODEL =====
+            var model = new Model.Patient
+            {
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Age = dto.Age,
+                BirthDate = dto.BirthDate
+            };
+
+            _repository.Add(model);
+            _repository.Save();
+
+            return (true, "Patient successfully added.");
         }
 
+        public (bool Ok, string Message) Update(DTO.Patient dto)
+        {
+            var existing = _repository.Get(dto.Id);
+            if (existing == null)
+                return (false, "Patient not found.");
 
+            existing.FirstName = dto.FirstName;
+            existing.LastName = dto.LastName;
+            existing.Age = dto.Age;
+            existing.BirthDate = dto.BirthDate;
 
+            _repository.Update(existing);
+            _repository.Save();
+
+            return (true, "Patient successfully updated.");
+        }
+
+        public (bool Ok, string Message) Delete(int id)
+        {
+            var existing = _repository.Get(id);
+            if (existing == null)
+                return (false, "Patient not found.");
+
+            _repository.Delete(id);
+            _repository.Save();
+
+            return (true, "Patient successfully deleted.");
+        }
     }
 }

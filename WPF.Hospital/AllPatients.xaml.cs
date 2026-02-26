@@ -34,7 +34,7 @@ namespace WPF.Hospital
                     Id = p.Id,
                     FirstName = p.FirstName,
                     LastName = p.LastName,
-                    Age = p.Age.ToString(),
+                    Age = p.Age,
                     Birthdate = p.BirthDate,
                 })
             };
@@ -44,6 +44,28 @@ namespace WPF.Hospital
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = dgPatients.SelectedItem as PatientViewModel;
+
+            if (selected == null)
+            {
+                MessageBox.Show("Please select a patient first.",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var updateWindow = new UpdatePatient(_patientService, selected);
+
+            var result = updateWindow.ShowDialog();
+
+            if (result == true)
+            {
+                // Refresh DataGrid after successful update
+                RefreshPatients();
+            }
         }
     }
 

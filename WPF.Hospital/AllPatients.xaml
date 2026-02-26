@@ -11,14 +11,25 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
+        <Button Content="Update Patient" Grid.Row="3" Margin="5" Click="Button_Click"></Button>
+        <Button Content="Add medical history" Grid.Row="3" Grid.Column="1" Grid.RowSpan="2" Margin="5"></Button>
+        <Button Content="Delete Patient" Grid.Row="4" Margin="5"></Button>
         <Label Content="All Patients" FontWeight="Bold"></Label>
         <Label Content="Search:" Grid.Row="1"></Label>
         <TextBox Grid.Row="1" Grid.Column="1"></TextBox>
-        <DataGrid ItemsSource="{Binding Patients}" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,5,0,0"></DataGrid>
+        <DataGrid x:Name="dgPatients"
+          ItemsSource="{Binding Patients}"
+          Grid.Row="2"
+          Grid.ColumnSpan="3"
+          Margin="0,5,0,0"
+          SelectionMode="Single"></DataGrid>
     </Grid>
 </Window>

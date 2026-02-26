@@ -32,15 +32,38 @@ namespace WPF.Hospital
 
         private void btnAddPatient_Click(object sender, RoutedEventArgs e)
         {
-            _patientService.Add(new DTO.Patient()
-            {
-                FirstName = ((PatientViewModel)DataContext).FirstName,
-                LastName = ((PatientViewModel)DataContext).LastName,
-                Age = Convert.ToInt32(((PatientViewModel)DataContext).Age),
-                BirthDate = ((PatientViewModel)DataContext).Birthdate,
-            });
+            var vm = (PatientViewModel)DataContext;
 
-            MessageBox.Show("Patient Addded Succesfully!");
+            var dto = new DTO.Patient
+            {
+                FirstName = vm.FirstName,
+                LastName = vm.LastName,
+                Age = vm.Age,
+                BirthDate = vm.Birthdate
+            };
+
+            var result = _patientService.Create(dto);
+
+            if (result.Ok)
+            {
+                MessageBox.Show(result.Message, "Success",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Clear fields
+                vm.FirstName = string.Empty;
+                vm.LastName = string.Empty;
+                vm.Age = 0;
+                vm.Birthdate = DateTime.Now;
+
+                // Optional: Close window after success
+                this.DialogResult = true;
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(result.Message, "Validation Error",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }
