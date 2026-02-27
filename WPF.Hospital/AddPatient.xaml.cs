@@ -39,7 +39,8 @@ namespace WPF.Hospital
                 FirstName = vm.FirstName,
                 LastName = vm.LastName,
                 Age = vm.Age,
-                BirthDate = vm.Birthdate
+                BirthDate = vm.Birthdate,
+                History = new List<DTO.History>() // ✅ FIX
             };
 
             var result = _patientService.Create(dto);

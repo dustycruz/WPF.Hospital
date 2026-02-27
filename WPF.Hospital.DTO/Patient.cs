@@ -13,6 +13,8 @@ namespace WPF.Hospital.DTO
         public string LastName { get; set; }
         public int Age { get; set; }
         public DateTime BirthDate { get; set; }
-        public IEnumerable<History> History { get; set; }
+
+        // ✅ CHANGE: initialize collection
+        public List<History> History { get; set; } = new();
     }
 }

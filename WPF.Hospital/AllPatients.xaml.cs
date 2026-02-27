@@ -23,13 +23,13 @@ namespace WPF.Hospital
 
         public AllPatients(IPatientService patientService, IHistoryService historyService)
         {
-            InitializeComponent();
+            InitializeComponent(); // ✅ REQUIRED IN ALL WPF WINDOWS
+
             _patientService = patientService;
+            _historyService = historyService;
 
             RefreshPatients();
-            _historyService = historyService;
         }
-
         private void RefreshPatients()
         {
             dgPatients.ItemsSource = _patientService.GetAll()

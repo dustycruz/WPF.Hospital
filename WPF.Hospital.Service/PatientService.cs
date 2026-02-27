@@ -26,7 +26,8 @@ namespace WPF.Hospital.Service
                     FirstName = p.FirstName,
                     LastName = p.LastName,
                     Age = p.Age,
-                    BirthDate = p.BirthDate
+                    BirthDate = p.BirthDate,
+                    History = new List<DTO.History>() // ✅ ADD
                 })
                 .ToList();
         }
@@ -42,7 +43,8 @@ namespace WPF.Hospital.Service
                 FirstName = p.FirstName,
                 LastName = p.LastName,
                 Age = p.Age,
-                BirthDate = p.BirthDate
+                BirthDate = p.BirthDate,
+                History = new List<DTO.History>() // ✅ ADD
             };
         }
 
