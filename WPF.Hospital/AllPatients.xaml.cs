@@ -16,40 +16,39 @@ using WPF.Hospital.ViewModel;
 
 namespace WPF.Hospital
 {
-    /// <summary>
-    /// Interaction logic for AllPatients.xaml
-    /// </summary>
     public partial class AllPatients : Window
     {
         private readonly IPatientService _patientService;
-        public AllPatients(IPatientService patientService)
+        private readonly IHistoryService _historyService;
+
+        public AllPatients(IPatientService patientService, IHistoryService historyService)
         {
             InitializeComponent();
             _patientService = patientService;
-            DataContext = new
-            {
-                Patients = _patientService.GetAll()
-                .Select(p => new PatientViewModel()
+
+            RefreshPatients();
+            _historyService = historyService;
+        }
+
+        private void RefreshPatients()
+        {
+            dgPatients.ItemsSource = _patientService.GetAll()
+                .Select(p => new PatientViewModel
                 {
                     Id = p.Id,
                     FirstName = p.FirstName,
                     LastName = p.LastName,
                     Age = p.Age,
-                    Birthdate = p.BirthDate,
+                    Birthdate = p.BirthDate
                 })
-            };
-
-        }
-
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
+                .ToList();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var selected = dgPatients.SelectedItem as PatientViewModel;
 
+            // RULE: Must select patient
             if (selected == null)
             {
                 MessageBox.Show("Please select a patient first.",
@@ -63,10 +62,108 @@ namespace WPF.Hospital
 
             if (result == true)
             {
-                // Refresh DataGrid after successful update
-                RefreshPatients();
+                RefreshPatients(); // refresh after successful update
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var selected = dgPatients.SelectedItem as PatientViewModel;
+
+            // RULE 1: Must select patient
+            if (selected == null)
+            {
+                MessageBox.Show("Please select a patient first.",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
+            // RULE 2: Confirmation required
+            var confirm = MessageBox.Show(
+                $"Are you sure you want to delete {selected.FirstName} {selected.LastName}?",
+                "Confirm Delete",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+            if (confirm != MessageBoxResult.Yes)
+                return;
+
+            // RULE 3 & 4 handled in service
+            var result = _patientService.Delete(selected.Id);
+
+            if (!result.Ok)
+            {
+                MessageBox.Show(result.Message,
+                    "Delete Blocked",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
+            // SUCCESS
+            MessageBox.Show(result.Message,
+                "Success",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+
+            // Refresh grid
+            RefreshPatients();
+
+            // Clear dependent views
+            // If you have these grids:
+            // dgHistory.ItemsSource = null;
+            // dgPrescriptions.ItemsSource = null;
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            {
+                var selected = dgPatients.SelectedItem as PatientViewModel;
+
+                // RULE: Must select patient
+                if (selected == null)
+                {
+                    MessageBox.Show("Please select a patient first.",
+                        "Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Get full Patient DTO from service
+                var patientDto = _patientService.Get(selected.Id);
+
+                if (patientDto == null)
+                {
+                    MessageBox.Show("Selected patient does not exist.",
+                        "Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Open Add History window
+                var window = new AddHistory(_historyService, patientDto)
+                {
+                    Owner = this
+                };
+
+                var result = window.ShowDialog();
+
+                if (result == true)
+                {
+                    MessageBox.Show("Medical history added successfully.",
+                        "Success",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+
+                    // OPTIONAL: Refresh history grid here if you have one
+                    // dgHistory.ItemsSource = _historyService.GetByPatient(patientDto.Id);
+                }
             }
         }
     }
-
 }
+

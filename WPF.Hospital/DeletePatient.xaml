@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="DeletePatient" Height="170" Width="400">
     <Grid Margin="5">
+        <Grid.Background>
+            <ImageBrush Stretch="Uniform" Opacity="0.1" ImageSource="/healthcare.png"></ImageBrush>
+        </Grid.Background>
 
 
         
@@ -14,9 +17,9 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        
-        
-        <Label Content="Delete New Patient" FontWeight="Bold"></Label>
+
+
+        <Label Content="Delete New Patient" FontWeight="Bold" Background="#FFD600"></Label>
         
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>

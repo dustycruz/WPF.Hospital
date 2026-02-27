@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -18,11 +19,13 @@ namespace WPF.Hospital
     public partial class MainWindow : Window
     {
         private readonly IPatientService _patientService;
+        private readonly IHistoryService _historyService;
 
-        public MainWindow(IPatientService patientService)
+        public MainWindow(IPatientService patientService,IHistoryService historyService)
         {
             InitializeComponent();
             _patientService = patientService;
+            _historyService = historyService;
             this.WindowState = WindowState.Maximized;
         }
 
@@ -40,7 +43,7 @@ namespace WPF.Hospital
 
         private void btnAllPatients_Click(object sender, RoutedEventArgs e)
         {
-            AllPatients allPatients = new AllPatients(_patientService);
+            AllPatients allPatients = new AllPatients(_patientService ,_historyService);
             allPatients.ShowDialog();
         }
 

@@ -6,75 +6,102 @@
         xmlns:local="clr-namespace:WPF.Hospital"
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="800">
-    <Grid>
+    <Grid Background="#F4F6FB">
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"></RowDefinition>
-            <RowDefinition Height="20"></RowDefinition>
-            <RowDefinition Height="35"></RowDefinition>
-            <RowDefinition Height="80"></RowDefinition>
-            <RowDefinition Height="35"></RowDefinition>
-            <RowDefinition Height="80"></RowDefinition>
-            <RowDefinition Height="35"></RowDefinition>
-            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="70"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid>
+
+        <!-- Top Header -->
+        <Border Grid.ColumnSpan="2" Background="#FFD600"
+            Padding="15"
+            Grid.Row="0">
+
+            <DockPanel>
+
+                <TextBlock Text="UAC Medical Center"
+                       FontSize="26"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"/>
+
+            </DockPanel>
+        </Border>
+
+        <!-- Main Body -->
+        <Grid Grid.Row="1">
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Image Source="/hospital.jpg" ></Image>
-            <Rectangle Grid.Column="1" Fill="#FFFFE600"/>
-            <TextBlock Text="UAC Medical Center" Grid.Column="1" VerticalAlignment="Center" FontSize="36" FontWeight="Bold" FontFamily="Arial" Padding="10,0,0,0"></TextBlock>
+
+            <!-- Sidebar Navigation -->
+            <Border Background="#1F2937"
+                Padding="15">
+
+                <StackPanel>
+
+                    <TextBlock Text="Maintenance"
+                           Foreground="White"
+                           FontSize="16"
+                           Margin="0,0,0,20"
+                           FontWeight="SemiBold"/>
+
+                    <Button x:Name="btnAddPatient"
+                        Content="Add Patient"
+                        Click="btnAddPatient_Click"
+                        Margin="0,5"/>
+
+                    <Button Content="Delete Patient"
+                        Click="Button_Click"
+                        Margin="0,5"/>
+
+                    <Button x:Name="btnAllPatients"
+                        Content="All Patients"
+                        Click="btnAllPatients_Click"
+                        Margin="0,5"/>
+
+                    <Separator Margin="0,15"/>
+
+                    <Button x:Name="btnAddMedicine"
+                        Content="Add Medicine"
+                        Click="btnAddMedicine_Click"
+                        Margin="0,5"/>
+
+                    <Button Content="Delete Medicine"
+                        Margin="0,5"/>
+
+                    <Button x:Name="btnAllMedicine"
+                        Content="All Medicine"
+                        Margin="0,5"/>
+
+                    <Separator Margin="0,15"/>
+
+                    <Button x:Name="btnAddDoctor"
+                        Content="Add Doctor"
+                        Margin="0,5"/>
+
+                    <Button Content="Delete Doctor"
+                        Margin="0,5"/>
+
+                    <Button x:Name="btnAllDoctor"
+                        Content="All Doctors"
+                        Margin="0,5"/>
+
+                </StackPanel>
+            </Border>
+
+            <!-- Content Area -->
+            <Grid Grid.Column="1" >
+                <Grid.Background>
+                    <ImageBrush ImageSource="/healthcare.png" Opacity="0.1" Stretch="Uniform"></ImageBrush>
+                </Grid.Background>
+            </Grid>
+            
+            
+
+
         </Grid>
-        <Menu Grid.Row="1">
-            <MenuItem Header="Patient">
-                <MenuItem Header="Add Patient"></MenuItem>
-            </MenuItem>
-            <MenuItem Header="Medicine">
-                <MenuItem Header="Add Patient"></MenuItem>
-            </MenuItem>
-            <MenuItem Header="Doctors">
-                <MenuItem Header="Add Doctor"></MenuItem>
-            </MenuItem>
-        </Menu>
-        <Label Grid.Row="2" Margin="2" Content="Patient Maintenance" FontSize="16" FontWeight="Bold"></Label>
-        <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="3">
-            <StackPanel.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Margin" Value="5"></Setter>
-                    <Setter Property="Padding" Value="10"></Setter>
-                    <Setter Property="BorderThickness"  Value="0"></Setter>
-                </Style>
-            </StackPanel.Resources>
-            <Button x:Name="btnAddPatient" Content="Add Patient" Click="btnAddPatient_Click"></Button>
-            <Button Content="Delete Patient" Click="Button_Click"></Button>
-            <Button x:Name="btnAllPatients" Content="All Patients" Click="btnAllPatients_Click"></Button>
-        </StackPanel>
-        <Label Grid.Row="4" Margin="2" Content="Medicine Maintenance" FontSize="16" FontWeight="Bold"></Label>
-        <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="5">
-            <StackPanel.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Margin" Value="5"></Setter>
-                    <Setter Property="Padding" Value="10"></Setter>
-                    <Setter Property="BorderThickness"  Value="0"></Setter>
-                </Style>
-            </StackPanel.Resources>
-            <Button x:Name="btnAddMedicine" Content="Add Medicine" Click="btnAddMedicine_Click"></Button>
-            <Button Content="Delete Medicine"></Button>
-            <Button x:Name="btnAllMedicine" Content="All Medicine"></Button>
-        </StackPanel>
-        <Label Grid.Row="6" Margin="2" Content="Doctor Maintenance" FontSize="16" FontWeight="Bold"></Label>
-        <StackPanel Margin="5" Orientation="Horizontal" Grid.Row="7">
-            <StackPanel.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Margin" Value="5"></Setter>
-                    <Setter Property="Padding" Value="10"></Setter>
-                    <Setter Property="BorderThickness"  Value="0"></Setter>
-                </Style>
-            </StackPanel.Resources>
-            <Button x:Name="btnAddDoctor" Content="Add Doctor"></Button>
-            <Button Content="Delete Doctor"></Button>
-            <Button x:Name="btnAllDoctor" Content="All Doctors"></Button>
-        </StackPanel>
     </Grid>
 </Window>
