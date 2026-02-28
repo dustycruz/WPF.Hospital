@@ -4,89 +4,139 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WPF.Hospital.DTO;
+using WPF.Hospital.Repository;
 using WPF.Hospital.Service.Interface;
 
 namespace WPF.Hospital.Service
 {
     public class HistoryService : IHistoryService
     {
-        private static readonly List<History> _histories = new();
+        private readonly IHistoryRepository _repository;
         private readonly IPatientService _patientService;
+        private readonly IDoctorService _doctorService;
 
-        public HistoryService(IPatientService patientService)
+        public HistoryService(IHistoryRepository repository, IPatientService patientService, IDoctorService doctorService)
         {
+            _repository = repository;
             _patientService = patientService;
+            _doctorService = doctorService;
         }
 
-        public IEnumerable<History> GetAll()
+        // GET ALL HISTORIES
+        public IEnumerable<DTO.History> GetAll()
         {
-            return _histories;
+            return _repository.GetAll()
+                .Select(h => new DTO.History
+                {
+                    Id = h.Id,
+                    Patient = new DTO.Patient { Id = h.PatientId },
+                    Doctor = new DTO.Doctor { Id = h.DoctorId },
+                    Procedure = h.Procedure
+                });
         }
 
-        public History? Get(int id)
+        // GET HISTORY BY ID
+        public DTO.History? Get(int id)
         {
-            return _histories.FirstOrDefault(h => h.Id == id);
+            var h = _repository.Get(id);
+            if (h == null) return null;
+
+            return new DTO.History
+            {
+                Id = h.Id,
+                Patient = new DTO.Patient { Id = h.PatientId },
+                Doctor = new DTO.Doctor { Id = h.DoctorId },
+                Procedure = h.Procedure
+            };
         }
 
-        public IEnumerable<History> GetByPatient(int patientId)
+        // GET BY PATIENT
+        public IEnumerable<DTO.History> GetByPatient(int patientId)
         {
-            return _histories
-                .Where(h => h.Patient != null && h.Patient.Id == patientId);
+            return _repository.GetByPatient(patientId)
+                .Select(h => new DTO.History
+                {
+                    Id = h.Id,
+                    Patient = new DTO.Patient
+                    {
+                        Id = h.Patient.Id,
+                        FirstName = h.Patient.FirstName,
+                        LastName = h.Patient.LastName
+                    },
+                    Doctor = new DTO.Doctor
+                    {
+                        Id = h.Doctor.Id,
+                        FirstName = h.Doctor.FirstName,
+                        LastName = h.Doctor.LastName
+                    },
+                    Procedure = h.Procedure
+                });
         }
 
-        public (bool Ok, string Message) Create(History entity)
+        // CREATE HISTORY
+        public (bool Ok, string Message) Create(DTO.History dto)
         {
-            // RULE: Patient must be selected
-            if (entity.Patient == null)
+            if (dto.Patient == null)
                 return (false, "A patient must be selected.");
 
-            // RULE: Procedure must not be empty
-            if (string.IsNullOrWhiteSpace(entity.Procedure))
+            if (dto.Doctor == null)
+                return (false, "A doctor must be selected.");
+
+            if (string.IsNullOrWhiteSpace(dto.Procedure))
                 return (false, "Procedure description must not be empty.");
 
-            // RULE: Patient must exist
-            var existingPatient = _patientService.Get(entity.Patient.Id);
-            if (existingPatient == null)
-                return (false, "Selected patient does not exist.");
+            var patientExists = _patientService.Get(dto.Patient.Id);
+            if (patientExists == null)
+                return (false, "Selected patient does not exist in the database.");
 
-            // CONNECT DTO PROPERLY
-            entity.Patient = existingPatient;
+            var doctorExists = _doctorService.Get(dto.Doctor.Id);
+            if (doctorExists == null)
+                return (false, "Selected doctor does not exist in the database.");
 
-            // SAVE
-            entity.Id = _histories.Count == 0
-                ? 1
-                : _histories.Max(h => h.Id) + 1;
+            var entity = new Model.History
+            {
+                PatientId = dto.Patient.Id,
+                DoctorId = dto.Doctor.Id,
+                Procedure = dto.Procedure
+            };
 
-            _histories.Add(entity);
+            _repository.Add(entity);
+            _repository.Save();
 
             return (true, "Medical history saved successfully.");
         }
 
-        public (bool Ok, string Message) Update(History entity)
+        // UPDATE HISTORY
+        public (bool Ok, string Message) Update(DTO.History dto)
         {
-            var existing = Get(entity.Id);
-
-            if (existing == null)
+            var model = _repository.Get(dto.Id);
+            if (model == null)
                 return (false, "History record not found.");
 
-            if (string.IsNullOrWhiteSpace(entity.Procedure))
+            if (string.IsNullOrWhiteSpace(dto.Procedure))
                 return (false, "Procedure description must not be empty.");
 
-            existing.Procedure = entity.Procedure;
+            model.Procedure = dto.Procedure;
+
+            if (dto.Patient != null && dto.Patient.Id > 0)
+                model.PatientId = dto.Patient.Id;
+
+            if (dto.Doctor != null && dto.Doctor.Id > 0)
+                model.DoctorId = dto.Doctor.Id;
+
+            _repository.Update(model);
+            _repository.Save();
 
             return (true, "Medical history updated successfully.");
         }
 
+        // DELETE HISTORY
         public (bool Ok, string Message) Delete(int id)
         {
-            var history = Get(id);
-
-            if (history == null)
-                return (false, "History record not found.");
-
-            _histories.Remove(history);
-
+            _repository.Delete(id);
+            _repository.Save();
             return (true, "Medical history deleted successfully.");
         }
+
     }
 }

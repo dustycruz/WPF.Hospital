@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using WPF.Hospital.Model;
 
 namespace WPF.Hospital.Repository
@@ -14,8 +15,17 @@ namespace WPF.Hospital.Repository
         {
             _context = context;
         }
-        public History Get(int id) => _context.History.Find(id);
-        public IEnumerable<History> GetAll() => _context.History.ToList();
+
+        public History Get(int id) => _context.History
+            .Include(h => h.Patient)
+            .Include(h => h.Doctor)
+            .FirstOrDefault(h => h.Id == id);
+
+        public IEnumerable<History> GetAll() => _context.History
+            .Include(h => h.Patient)
+            .Include(h => h.Doctor)
+            .ToList();
+
         public void Add(History entity)
         {
             _context.History.Add(entity);
@@ -30,16 +40,21 @@ namespace WPF.Hospital.Repository
             }
         }
 
-    
         public void Update(History entity)
         {
             _context.History.Update(entity);
         }
+
         public int Save() => _context.SaveChanges();
 
+        // ✅ UPDATED - Include Patient and Doctor
         public IEnumerable<History> GetByPatient(int patientId)
         {
-            return _context.History.Where(h => h.PatientId == patientId).ToList();
+            return _context.History
+                .Include(h => h.Patient)
+                .Include(h => h.Doctor)
+                .Where(h => h.PatientId == patientId)
+                .ToList();
         }
     }
 }

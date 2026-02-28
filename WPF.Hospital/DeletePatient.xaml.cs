@@ -39,21 +39,55 @@ namespace WPF.Hospital
 
         private void btnDeletePatient_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(tbPatientId.Text))
+            // VALIDATION: Check if ID is provided
+            if (string.IsNullOrWhiteSpace(tbPatientId.Text))
             {
-                MessageBox.Show("Please enter a patient id");
+                MessageBox.Show("Please enter a patient ID.",
+                    "Validation Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
                 return;
             }
-            if (DataContext == null)
+
+            // VALIDATION: Check if ID is a valid integer
+            if (!int.TryParse(tbPatientId.Text, out int patientId))
             {
-                MessageBox.Show("Id not found");
-               
-            }
-            else            {
-                _patientService.Delete(Convert.ToInt32(tbPatientId.Text));
-                MessageBox.Show("Patient Deleted Succesfully!");
+                MessageBox.Show("Patient ID must be a valid number.",
+                    "Validation Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
             }
 
+            // CONFIRMATION: Ask user to confirm deletion
+            var confirm = MessageBox.Show(
+                $"Are you sure you want to delete patient with ID {patientId}?",
+                "Confirm Delete",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+            if (confirm != MessageBoxResult.Yes)
+                return;
+
+            // CALL SERVICE and check result
+            var result = _patientService.Delete(patientId);
+
+            if (!result.Ok)
+            {
+                MessageBox.Show(result.Message,
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
+            // SUCCESS
+            MessageBox.Show(result.Message,
+                "Success",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+
+            tbPatientId.Clear();
 
 
         }

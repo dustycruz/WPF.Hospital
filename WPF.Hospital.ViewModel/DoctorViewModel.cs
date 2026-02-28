@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace WPF.Hospital.ViewModel
 {
-    public class HistoryViewModel
+    public class DoctorViewModel
     {
         public int Id { get; set; }
-        public string PatientName { get; set; }
-        public string DoctorName { get; set; }
-        public string Procedure { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPF.Hospital"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Add Patient" Height="200" Width="450">
+        Title="Add Patient" Height="250" Width="450">
     <Grid Margin="5">
         <Grid.Background>
             <ImageBrush Stretch="Uniform" Opacity="0.1" ImageSource="/healthcare.png"></ImageBrush>
@@ -15,8 +15,10 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
+
         <Label Content="Add New Patient" FontWeight="Bold" Background="#FFD600"></Label>
-        <Grid Grid.Row="1">
+
+        <Grid Grid.Row="1" >
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
@@ -25,38 +27,40 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="120"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Content="First Name"></Label>
-            <TextBox Grid.Column="1" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}">
+
+            <Label Grid.Row="0" Content="First Name" VerticalAlignment="Center"></Label>
+            <TextBox x:Name="txtFirstName" Grid.Row="0" Grid.Column="1" Margin="0,5" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}">
                 <TextBox.Background>
                     <SolidColorBrush Color="White" Opacity="0.01"/>
                 </TextBox.Background>
             </TextBox>
-            <Label Grid.Row="1" Content="Last Name"></Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}">
+
+            <Label Grid.Row="1" Content="Last Name" VerticalAlignment="Center"></Label>
+            <TextBox x:Name="txtLastName" Grid.Row="1" Grid.Column="1" Margin="0,5" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}">
                 <TextBox.Background>
                     <SolidColorBrush Color="White" Opacity="0.01"/>
                 </TextBox.Background>
             </TextBox>
-            <Label Grid.Row="2" Content="Age"></Label>
-            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}">
+
+            <Label Grid.Row="2" Content="Age" VerticalAlignment="Center"></Label>
+            <TextBox x:Name="txtAge" Grid.Row="2" Grid.Column="1" Margin="0,5" Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}">
                 <TextBox.Background>
                     <SolidColorBrush Color="White" Opacity="0.01"/>
                 </TextBox.Background>
             </TextBox>
-            <Label Grid.Row="3" Content="Birthdate"></Label>
-            <DatePicker Grid.Row="3" Grid.Column="1"
-            SelectedDate="{Binding Birthdate, UpdateSourceTrigger=PropertyChanged}">
+
+            <Label Grid.Row="3" Content="Birthdate" VerticalAlignment="Center"></Label>
+            <DatePicker x:Name="dpBirthdate" Grid.Row="3" Grid.Column="1" 
+                        SelectedDate="{Binding Birthdate, UpdateSourceTrigger=PropertyChanged}">
                 <DatePicker.Background>
                     <SolidColorBrush Opacity="0.01"/>
                 </DatePicker.Background>
             </DatePicker>
-            <Button x:Name="btnAddPatient" Grid.Row="4" Grid.ColumnSpan="2" Content="Add Patient" Click="btnAddPatient_Click">
-                <Button.Background>
-                    <SolidColorBrush Color="#FFDDDDDD" Opacity="0.4"/>
-                </Button.Background>
+
+            <Button x:Name="btnAddPatient" Grid.Row="4" Grid.ColumnSpan="2" Content="Add Patient" Click="btnAddPatient_Click" Height="35">
             </Button>
         </Grid>
     </Grid>

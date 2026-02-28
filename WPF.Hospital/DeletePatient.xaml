@@ -10,37 +10,32 @@
         <Grid.Background>
             <ImageBrush Stretch="Uniform" Opacity="0.1" ImageSource="/healthcare.png"></ImageBrush>
         </Grid.Background>
-
-
-        
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
+        <Label Content="Delete Patient" FontWeight="Bold" Background="#FFD600"></Label>
 
-        <Label Content="Delete New Patient" FontWeight="Bold" Background="#FFD600"></Label>
-        
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Margin="10">
             <Grid.RowDefinitions>
-
                 <RowDefinition></RowDefinition>
-                <RowDefinition Height="30"></RowDefinition>
-
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"></RowDefinition>
-                    <RowDefinition Height="30"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Label Content="Id" FontWeight="Bold"></Label>
+            <Label Grid.Row="0" Content="Patient ID" VerticalAlignment="Center"></Label>
+            <TextBox x:Name="tbPatientId" Grid.Row="0" Grid.Column="1" Margin="0,5" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.Background>
+                    <SolidColorBrush Color="White" Opacity="0.01"/>
+                </TextBox.Background>
+            </TextBox>
 
-
-                <TextBox Grid.Row="1" x:Name="tbPatientId" Height="30" Grid.Column="0" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-
-            </Grid>
-            <Button x:Name="btnDeletePatient" Grid.Row="1" Grid.ColumnSpan="2" Content="Delete Patient" Click="btnDeletePatient_Click"></Button>
+            <Button x:Name="btnDeletePatient" Grid.Row="1" Grid.ColumnSpan="2" Content="Delete Patient" Click="btnDeletePatient_Click" Height="35">
+            </Button>
         </Grid>
     </Grid>
 </Window>

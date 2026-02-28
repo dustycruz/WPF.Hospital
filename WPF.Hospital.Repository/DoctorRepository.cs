@@ -17,6 +17,10 @@ namespace WPF.Hospital.Repository
         }
         public Doctor Get(int id) => _context.Doctor.Find(id);
         public IEnumerable<Doctor> GetAll() => _context.Doctor.ToList();
+        public IEnumerable<History> GetHistoriesByDoctor(int doctorId)
+        {
+            return _context.History.Where(h => h.DoctorId == doctorId).ToList();
+        }
 
         public void Add(Doctor entity)
         {

@@ -80,14 +80,14 @@
 
                     <Button x:Name="btnAddDoctor"
                         Content="Add Doctor"
-                        Margin="0,5"/>
+                        Margin="0,5" Click="btnAddDoctor_Click"/>
 
                     <Button Content="Delete Doctor"
-                        Margin="0,5"/>
+                        Margin="0,5" Click="btnDeleteDoctor_Click"/>
 
                     <Button x:Name="btnAllDoctor"
                         Content="All Doctors"
-                        Margin="0,5"/>
+                        Margin="0,5" Click="btnAllDoctor_Click"/>
 
                 </StackPanel>
             </Border>
