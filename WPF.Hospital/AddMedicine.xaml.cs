@@ -69,7 +69,7 @@ namespace WPF.Hospital
             txtBrand.Clear();
             txtName.Focus();
 
-            this.DialogResult = true;
+
             this.Close();
         }
     }

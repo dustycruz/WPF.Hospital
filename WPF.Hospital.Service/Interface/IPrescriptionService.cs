@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WPF.Hospital.DTO;
+using WPF.Hospital.Model;
 
 namespace WPF.Hospital.Service.Interface
 {
     public interface IPrescriptionService : IService<Prescription>
     {
         IEnumerable<Prescription> GetByHistory(int historyId);
+        bool DuplicateMedicineExists(int historyId, int medicineId);
     }
 }

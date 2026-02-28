@@ -110,13 +110,11 @@ namespace WPF.Hospital
                 return;
             }
 
-            // ✅ SET IDS AND OBJECTS
+            // ✅ ONLY SET IDS (NO HISTORY OR MEDICINE OBJECTS)
             var prescriptionDto = new Prescription
             {
                 HistoryId = historyId,
-                History = history,
                 MedicineId = medicineId,
-                Medicine = medicine,
                 Quantity = quantity,
                 Frequency = txtFrequency.Text
             };

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF.Hospital"
         mc:Ignorable="d"
-        Title="AddPrescription" Height="200" Width="450">
+        Title="AddPrescription" Height="311" Width="656">
     <Grid Margin="5">
         <Grid.Background>
             <ImageBrush Stretch="Uniform" Opacity="0.1" ImageSource="/healthcare.png"></ImageBrush>
