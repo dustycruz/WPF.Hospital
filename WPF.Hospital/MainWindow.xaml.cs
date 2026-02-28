@@ -20,13 +20,17 @@ namespace WPF.Hospital
         private readonly IPatientService _patientService;
         private readonly IHistoryService _historyService;
         private readonly IDoctorService _doctorService;
+        private readonly IMedicineService _medicineService;
+        private readonly IPrescriptionService _prescriptionService;
 
-        public MainWindow(IPatientService patientService, IHistoryService historyService, IDoctorService doctorService)
+        public MainWindow(IPatientService patientService, IHistoryService historyService, IDoctorService doctorService, IMedicineService medicineService, IPrescriptionService prescriptionService)
         {
             InitializeComponent();
             _patientService = patientService;
             _historyService = historyService;
-            _doctorService = doctorService;  // ✅ ADD THIS LINE
+            _doctorService = doctorService;
+            _medicineService = medicineService;
+            _prescriptionService = prescriptionService;
             this.WindowState = WindowState.Maximized;
         }
 
@@ -56,8 +60,21 @@ namespace WPF.Hospital
 
         private void btnAddMedicine_Click(object sender, RoutedEventArgs e)
         {
-            AddMedicine AddMedicine = new AddMedicine(_patientService);
-            AddMedicine.Show();
+            AddMedicine addMedicine = new AddMedicine(_medicineService);
+            addMedicine.Show();
+        }
+
+        private void btnDeleteMedicine_Click(object sender, RoutedEventArgs e)
+        {
+            var deleteWindow = new AllMedicines(_medicineService);
+            deleteWindow.Owner = this;
+            deleteWindow.ShowDialog();
+        }
+
+        private void btnAllMedicine_Click(object sender, RoutedEventArgs e)
+        {
+            var allMedicinesWindow = new AllMedicines(_medicineService);
+            allMedicinesWindow.ShowDialog();
         }
 
         private void btnAddDoctor_Click(object sender, RoutedEventArgs e)
@@ -79,6 +96,11 @@ namespace WPF.Hospital
             allDoctorsWindow.ShowDialog();
         }
 
-
+        private void btnAllPrescriptions_Click(object sender, RoutedEventArgs e)
+        {
+            var allPrescriptions = new AllPrescriptions(_prescriptionService, _historyService, _medicineService);
+            allPrescriptions.ShowDialog();
+        }
+    }
     }
 }

@@ -16,4 +16,5 @@ namespace WPF.Hospital.DTO
         public int Quantity { get; set; }
         public string Frequency { get; set; }
     }
+
 }

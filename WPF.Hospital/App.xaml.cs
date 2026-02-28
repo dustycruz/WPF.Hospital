@@ -39,7 +39,7 @@
                         services.AddScoped<IPatientService, PatientService>();
                         services.AddScoped<IDoctorService, DoctorService>();
                         services.AddScoped<IHistoryService, HistoryService>();
-                        //services.AddScoped<IMedicineService, MedicineService>();
+                        services.AddScoped<IMedicineService, MedicineService>();
                         //services.AddScoped<IPrescriptionService, PrescriptionService>();
                         services.AddTransient<MainWindow>();
                     })

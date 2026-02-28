@@ -1,0 +1,90 @@
+﻿<Window x:Class="WPF.Hospital.AllMedicines"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF.Hospital"
+        mc:Ignorable="d"
+        Title="AllMedicines" Height="450" Width="800">
+    <Grid Background="#F4F6FB">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Background="#FFD600"
+                Padding="15">
+
+            <TextBlock Text="All Medicines"
+                       FontSize="26"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"/>
+        </Border>
+
+        <!-- Main Body -->
+        <Grid Grid.Row="1">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Sidebar Controls -->
+            <Border Background="#1F2937"
+                    Padding="15">
+
+                <StackPanel>
+
+                    <TextBlock Text="Medicine Actions"
+                               Foreground="White"
+                               FontSize="16"
+                               Margin="0,0,0,20"
+                               FontWeight="SemiBold"/>
+
+                    <Button x:Name="btnAdd"
+                            Content="Add Medicine"
+                            Click="btnAdd_Click"
+                            Margin="0,5"/>
+
+                    <Button x:Name="btnUpdate"
+                            Content="Update Medicine"
+                            Click="btnUpdate_Click"
+                            Margin="0,5"/>
+
+                    <Button x:Name="btnDelete"
+                            Content="Delete Medicine"
+                            Click="btnDelete_Click"
+                            Margin="0,5"/>
+
+                    <Separator Margin="0,15"/>
+
+                </StackPanel>
+
+            </Border>
+
+            <!-- Content Area -->
+            <Grid Grid.Column="1"
+                  Margin="15">
+
+                <DataGrid x:Name="dgMedicines"
+                          SelectionMode="Single"
+                          AutoGenerateColumns="True"
+                          BorderThickness="0"
+                          Padding="10">
+                    <DataGrid.Background>
+                        <SolidColorBrush Color="White" Opacity="0.01"/>
+                    </DataGrid.Background>
+                </DataGrid>
+
+                <Grid.Background>
+                    <ImageBrush ImageSource="/healthcare.png" Opacity="0.1" Stretch="Uniform"></ImageBrush>
+                </Grid.Background>
+
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+</Window>

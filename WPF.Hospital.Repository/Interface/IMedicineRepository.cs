@@ -9,6 +9,5 @@ namespace WPF.Hospital.Repository.Interface
 {
     public interface IMedicineRepository : IRepository<Medicine>
     {
-
     }
 }

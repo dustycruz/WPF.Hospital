@@ -69,12 +69,19 @@
                         Click="btnAddMedicine_Click"
                         Margin="0,5"/>
 
-                    <Button Content="Delete Medicine"
+                    <Button x:Name="btnDeleteMedicine"
+                        Content="Delete Medicine"
+                        Click="btnDeleteMedicine_Click"
                         Margin="0,5"/>
 
                     <Button x:Name="btnAllMedicine"
                         Content="All Medicine"
+                        Click="btnAllMedicine_Click"
                         Margin="0,5"/>
+                    <Button x:Name="btnAllPrescriptions"
+                        Content="All Prescriptions"
+                        Click="btnAllPrescriptions_Click"
+                        />
 
                     <Separator Margin="0,15"/>
 
@@ -89,7 +96,16 @@
                         Content="All Doctors"
                         Margin="0,5" Click="btnAllDoctor_Click"/>
 
+                    <Separator Margin="0,15"/>
+
+                    <TextBlock Text="Prescriptions"
+                               Foreground="White"
+                               FontSize="16"
+                               Margin="0,0,0,20"
+                               FontWeight="SemiBold"/>
+
                 </StackPanel>
+
             </Border>
 
             <!-- Content Area -->
@@ -98,9 +114,6 @@
                     <ImageBrush ImageSource="/healthcare.png" Opacity="0.1" Stretch="Uniform"></ImageBrush>
                 </Grid.Background>
             </Grid>
-            
-            
-
 
         </Grid>
     </Grid>

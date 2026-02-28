@@ -2,25 +2,30 @@
 using System.Windows;
 using WPF.Hospital.Model;
 using WPF.Hospital.Service.Interface;
+using WPF.Hospital.ViewModel;
 
 namespace WPF.Hospital
 {
-    public partial class AddMedicine : Window
+    public partial class UpdateMedicine : Window
     {
         private readonly IMedicineService _medicineService;
+        private readonly MedicineViewModel _medicine;
 
-        public AddMedicine(IMedicineService medicineService)
+        public UpdateMedicine(IMedicineService medicineService, MedicineViewModel medicine)
         {
             InitializeComponent();
             _medicineService = medicineService;
+            _medicine = medicine;
+
+            txtName.Text = medicine.Name;
+            txtBrand.Text = medicine.Brand;
         }
 
-        private void btnAddMedicine_Click(object sender, RoutedEventArgs e)
+        private void btnUpdateMedicine_Click(object sender, RoutedEventArgs e)
         {
             string name = txtName.Text.Trim();
             string brand = txtBrand.Text.Trim();
 
-            // VALIDATION: Name must not be empty
             if (string.IsNullOrWhiteSpace(name))
             {
                 MessageBox.Show("Medicine name is required.",
@@ -31,7 +36,6 @@ namespace WPF.Hospital
                 return;
             }
 
-            // VALIDATION: Brand must not be empty
             if (string.IsNullOrWhiteSpace(brand))
             {
                 MessageBox.Show("Brand is required.",
@@ -42,14 +46,15 @@ namespace WPF.Hospital
                 return;
             }
 
-            // ✅ USE MODEL.MEDICINE (NOT DTO)
+            // ✅ USE MODEL.MEDICINE
             var medicineDto = new Medicine
             {
+                Id = _medicine.Id,
                 Name = name,
                 Brand = brand
             };
 
-            var result = _medicineService.Create(medicineDto);
+            var result = _medicineService.Update(medicineDto);
 
             if (!result.Ok)
             {
@@ -64,10 +69,6 @@ namespace WPF.Hospital
                 "Success",
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
-
-            txtName.Clear();
-            txtBrand.Clear();
-            txtName.Focus();
 
             this.DialogResult = true;
             this.Close();
